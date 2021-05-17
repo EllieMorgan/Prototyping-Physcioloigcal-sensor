@@ -1,0 +1,39 @@
+Sub everyOther()
+Dim rng As Range
+Dim dataSheet As Worksheet
+Dim newSheet As Worksheet
+
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+
+Set dataSheet = ActiveSheet
+Set newSheet = Sheets.Add(, ActiveSheet)
+newSheet.Name = "Results"
+dataSheet.Range("D2:H2").Copy
+newSheet.Activate
+newSheet.Range("B1").Value = "Pitch1000"
+newSheet.Range("D1").Value = "ResMed"
+newSheet.Range("A2").Select
+ActiveSheet.Paste
+dataSheet.Range("D3:H3").Copy
+newSheet.Activate
+newSheet.Range("A:E").Select
+Selection.PasteSpecial (xlPasteFormats)
+
+With dataSheet
+    i = 1
+    Do Until .Rows(2 * i + 1).Cells(1) = "" 'Or i > 1000
+        .Rows(2 * i + 1).Range("d1:h1").Copy
+        newSheet.Activate
+        newSheet.Rows(i + 2).Range("A1").Select
+        Selection.PasteSpecial (xlPasteValues)
+        .Activate
+        i = i + 1
+    Loop
+End With
+
+Application.ScreenUpdating = True
+Application.Calculation = xlCalculationAutomatic
+
+
+End Sub
